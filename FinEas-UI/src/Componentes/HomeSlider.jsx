@@ -12,7 +12,8 @@ const TipsSlider = () => {
       title: 'Start Small, Achieve Big',
       description:
         'Even tiny steps towards saving consistently can lead to remarkable financial growth over time.',
-      image: 'https://i.ibb.co/2NwXJbG/motivation1.jpg',
+      image:
+        'https://i.ibb.co.com/XxtFcLgx/Gemini-Generated-Image-fn9l19fn9l19fn9l.png',
       disclaimer:
         'This tip is for informational purposes only. Make financial decisions based on your personal situation.',
     },
@@ -21,7 +22,8 @@ const TipsSlider = () => {
       title: 'Track Your Expenses',
       description:
         'Monitoring your daily expenses helps you identify unnecessary spending and save more efficiently.',
-      image: 'https://i.ibb.co/9WZy2hF/motivation2.jpg',
+      image:
+        'https://i.ibb.co.com/7JNsCstH/AZr-BMMJOti2qt7-Qp-ouid-A-AZr-BMMJPmq73-IVPD4h1k-Ow.jpg',
       disclaimer:
         'This tip is for informational purposes only. Adapt advice to your own financial needs.',
     },
@@ -30,7 +32,8 @@ const TipsSlider = () => {
       title: 'Invest in Knowledge',
       description:
         'Learning about personal finance, investments, and money management pays the best returns in the long run.',
-      image: 'https://i.ibb.co/6mF2xk5/motivation3.jpg',
+      image:
+        'https://i.ibb.co.com/6cQV09Yq/Gemini-Generated-Image-y0acrqy0acrqy0ac.png',
       disclaimer:
         'This tip is for guidance only. Results may vary based on individual effort and situation.',
     },
@@ -39,7 +42,8 @@ const TipsSlider = () => {
       title: 'Build an Emergency Fund',
       description:
         'Set aside a small portion of your income regularly to prepare for unexpected financial events.',
-      image: 'https://i.ibb.co/7kGf9VF/motivation4.jpg',
+      image:
+        'https://i.ibb.co.com/7J3Rtt1S/Gemini-Generated-Image-hdtla0hdtla0hdtl.png',
       disclaimer:
         'This is general advice. Personal financial circumstances may require different actions.',
     },
@@ -48,7 +52,8 @@ const TipsSlider = () => {
       title: 'Automate Your Savings',
       description:
         'Automating transfers to your savings account ensures consistent growth without extra effort.',
-      image: 'https://i.ibb.co/3Wc9LQm/motivation5.jpg',
+      image:
+        'https://i.ibb.co.com/VW537vtR/Gemini-Generated-Image-pb5gn8pb5gn8pb5g.png',
       disclaimer:
         'Information provided is educational. Adjust actions according to your financial goals.',
     },
@@ -87,7 +92,7 @@ const TipsSlider = () => {
               </div>
 
               {/* Image Section */}
-              <div className="flex-1 relative w-full mt-6 md:mt-0">
+              <div className="flex-1 relative w- mt-6 md:mt-0">
                 <img
                   src={tip.image}
                   alt={tip.title}

@@ -1,23 +1,35 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { FiLogOut, FiMenu, FiX, FiSun, FiMoon, FiChevronDown } from "react-icons/fi";
-import logo from "../assets/Logo.png";
-import { AuthContext } from "../Context/AuthContext";
-import toast, { Toaster } from "react-hot-toast";
-import Swal from "sweetalert2";
+import React, { useContext, useState, useEffect, useRef } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import {
+  FiLogOut,
+  FiMenu,
+  FiX,
+  FiSun,
+  FiMoon,
+  FiChevronDown,
+} from 'react-icons/fi';
+import logo from '../assets/Logo.png';
+import { AuthContext } from '../Context/AuthContext';
+import toast, { Toaster } from 'react-hot-toast';
+import Swal from 'sweetalert2';
 
 const Header = () => {
   const { user, singout } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(localStorage.getItem("theme") === "dark");
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem('theme') === 'dark'
+  );
   const [dropdown, setDropdown] = useState(false);
   const dropdownRef = useRef();
   const navigate = useNavigate();
 
   // Dark Mode Setup
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", darkMode ? "dark" : "light");
-    localStorage.setItem("theme", darkMode ? "dark" : "light");
+    document.documentElement.setAttribute(
+      'data-theme',
+      darkMode ? 'dark' : 'light'
+    );
+    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
   }, [darkMode]);
 
   // Close dropdown on outside click
@@ -27,31 +39,31 @@ const Header = () => {
         setDropdown(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Add Transaction", path: "/add-transaction", private: true },
-    { name: "My Transactions", path: "/my-transactions", private: true },
-    { name: "Reports", path: "/reports", private: true },
+    { name: 'Home', path: '/' },
+    { name: 'Add Transaction', path: '/add-transaction', private: true },
+    { name: 'My Transactions', path: '/my-transactions', private: true },
+    { name: 'Reports', path: '/reports', private: true },
   ];
 
   const handleLogout = () => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "You will be logged out!",
-      icon: "warning",
+      title: 'Are you sure?',
+      text: 'You will be logged out!',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#16a34a",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, log out",
+      confirmButtonColor: '#16a34a',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, log out',
     }).then((res) => {
       if (res.isConfirmed) {
         singout();
-        toast.success("Logged Out!");
-        navigate("/");
+        toast.success('Logged Out!');
+        navigate('/');
       }
     });
   };
@@ -91,20 +103,7 @@ const Header = () => {
           {/* Dark Mode Toggle */}
           <button
             onClick={() => setDarkMode(!darkMode)}
-            className="
-    p-2 
-    rounded-full 
-    cursor-pointer 
-    border 
-    border-[#00A86B] 
-    text-[#00A86B]
-    dark:border-[#39F9C0]
-    dark:text-[#39F9C0]
-    hover:bg-[#00A86B] 
-    hover:text-white 
-    dark:hover:bg-[#39F9C0]
-    transition-all duration-300
-  "
+            className="p-2 rounded-full cursor-pointer border border-[#00A86B] text-[#00A86B] dark:border-[#39F9C0] dark:text-[#39F9C0] hover:bg-[#00A86B] hover:text-white dark:hover:bg-[#39F9C0] transition-all duration-300"
           >
             {darkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
           </button>
@@ -169,14 +168,14 @@ const Header = () => {
 
       {/* Mobile Dropdown Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white dark:bg-[#0D1B1E] shadow-lg p-6 space-y-4 animate__animated animate__fadeInDown">
+        <div className="md:hidden bg-[#0D1B1E] shadow-lg p-6 space-y-6 animate__animated animate__fadeInDown">
           {navLinks.map((link) =>
             !link.private || (link.private && user) ? (
               <NavLink
                 key={link.path}
                 to={link.path}
                 onClick={() => setIsOpen(false)}
-                className="block text-lg font-medium cursor-pointer hover:text-green-600"
+                className="block text-xl font-semibold text-white hover:text-green-400 py-2 transition-all"
               >
                 {link.name}
               </NavLink>
@@ -187,13 +186,13 @@ const Header = () => {
           {!user ? (
             <>
               <NavLink to="/signin">
-                <button className="w-full py-2 border border-green-600 text-green-600 rounded-lg font-medium hover:bg-green-600 hover:text-white cursor-pointer">
+                <button className="w-full py-3 border border-green-600 text-white rounded-lg font-bold hover:bg-green-600 hover:text-white transition-all">
                   Login
                 </button>
               </NavLink>
 
               <NavLink to="/signup">
-                <button className="w-full py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 cursor-pointer">
+                <button className="w-full py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700 transition-all">
                   Sign Up
                 </button>
               </NavLink>
@@ -201,7 +200,7 @@ const Header = () => {
           ) : (
             <button
               onClick={handleLogout}
-              className="w-full py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 cursor-pointer"
+              className="w-full py-3 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition-all"
             >
               Logout
             </button>
