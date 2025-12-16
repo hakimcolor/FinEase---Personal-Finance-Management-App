@@ -7,6 +7,8 @@ import PriveteRouter from "./PriveteRouter";
 import AddTransaction from "../Pages/AddTransaction";
 import MyTransctions from "../Pages/MyTransctions";
 import Reports from "../Pages/Reports";
+import TransactionDetails from "../Pages/TransactionDetails";
+import UpdateTransaction from "../Pages/UpdateTransacrion";
  
 export  const router = createBrowserRouter([
   {
@@ -38,7 +40,15 @@ export  const router = createBrowserRouter([
           },
           {
             path: 'reports',
-            element:<Reports/>
+            element: <Reports />,
+          },
+          {
+            path: 'transaction-details/:id',
+            element: <TransactionDetails />,
+          },
+          {
+           path: 'update-transaction/:id',
+            element: <UpdateTransaction />,
           },
         ],
       },

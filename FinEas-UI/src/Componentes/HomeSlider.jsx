@@ -61,7 +61,7 @@ const TipsSlider = () => {
 
   return (
     <div className="max-w-7xl mx-auto  px-4 py-8 rounded-3x">
-      <h2 className="text-4xl sm:text-5xl font-extrabold text-center mb-10 text-teal-800 drop-shadow-md">
+      <h2 className="text-4xl sm:text-5xl font-extrabold text-center mb-10 text-teal-600 drop-shadow-md">
         💰 Money Management Inspirations
       </h2>
 
@@ -92,7 +92,10 @@ const TipsSlider = () => {
               </div>
 
               {/* Image Section */}
-              <div className="flex-1 relative w- mt-6 md:mt-0">
+              <div
+                className="flex-1 relative w-full md:w-[450px] lg:w-[550px]
+mt-6 md:mt-0"
+              >
                 <img
                   src={tip.image}
                   alt={tip.title}
