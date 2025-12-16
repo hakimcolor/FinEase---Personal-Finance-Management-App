@@ -48,6 +48,7 @@ const Header = () => {
     { name: 'Add Transaction', path: '/add-transaction', private: true },
     { name: 'My Transactions', path: '/my-transactions', private: true },
     { name: 'Reports', path: '/reports', private: true },
+    { name: 'My Profile', path: '/myprofile', private: true },
   ];
 
   const handleLogout = () => {

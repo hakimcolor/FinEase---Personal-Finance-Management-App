@@ -41,6 +41,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Loading from './Loding';
 
 const TransactionDetails = () => {
   const { id } = useParams();
@@ -56,9 +57,7 @@ const TransactionDetails = () => {
 
   if (!transaction)
     return (
-      <div className="text-center mt-10 text-gray-600 dark:text-gray-300">
-        Loading...
-      </div>
+     <Loading/>
     );
 
   return (

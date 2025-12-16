@@ -9,6 +9,7 @@ import MyTransctions from "../Pages/MyTransctions";
 import Reports from "../Pages/Reports";
 import TransactionDetails from "../Pages/TransactionDetails";
 import UpdateTransaction from "../Pages/UpdateTransacrion";
+import MyProfile from "../Pages/MyProfile";
  
 export  const router = createBrowserRouter([
   {
@@ -49,7 +50,9 @@ export  const router = createBrowserRouter([
           {
            path: 'update-transaction/:id',
             element: <UpdateTransaction />,
-          },
+          }, {
+            path: 'myprofile',
+            element:<MyProfile/>          }
         ],
       },
     ],

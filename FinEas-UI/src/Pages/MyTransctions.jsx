@@ -137,6 +137,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../Context/AuthContext';
 import Swal from 'sweetalert2';
+import Loading from './Loding';
 
 const MyTransactions = () => {
   const { user } = useContext(AuthContext);
@@ -188,15 +189,13 @@ const MyTransactions = () => {
 
   if (loading)
     return (
-      <div className="text-center mt-10 text-gray-600 dark:text-gray-300">
-        Loading...
-      </div>
+     <Loading/>
     );
 
   return (
     <div className="max-w-6xl mx-auto p-4 sm:p-6">
       <Toaster />
-      <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-slate-800 dark:text-slate-100">
+      <h2 className="text-2xl sm:text-3xl font-bold mb-6dark:text-slate-100 mb-2">
         My Transactions
       </h2>
 
