@@ -1,174 +1,166 @@
 
-import React, { useContext, useState } from 'react';
-import { AuthContext } from '../Context/AuthContext';
-
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
-import Loading from './Loding';
+import { AuthContext } from '../Context/AuthContext';
 
 const MyProfile = () => {
   const { user, setUser } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    firstName: '',
+    email: '',
+    imgUrl: '',
+    password: '',
+  });
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [name, setName] = useState(user?.displayName || user?.firstName || '');
-  const [photo, setPhoto] = useState(user?.photoURL || user?.imgUrl || '');
-  const [loading, setLoading] = useState(false);
-
-  if (!user) return <Loading />;
-
-  // 🔹 Save with SweetAlert2
-  const handleUpdateConfirm = () => {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'Do you want to update your profile?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#4f46e5',
-      cancelButtonColor: '#64748b',
-      confirmButtonText: 'Yes, Update',
-      cancelButtonText: 'No',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        handleUpdate();
-      }
-    });
-  };
-
-  // 🔹 Update API call
-
-  const handleUpdate = async () => {
+  const fetchUser = async () => {
+    if (!user?.email) return;
     try {
-      setLoading(true);
-      console.log(user._id); // check id
-
-      const res = await axios.put(
-        `http://localhost:3000/users/${user._id}`, // use _id instead of email
-        {
-        name,
-         photo,
-        }
+      const res = await axios.get(
+        `http://localhost:3000/users/by-email?email=${user.email}`
       );
-
-      // update user context
-      setUser(res.data.user);
-
-      setIsEditing(false);
-
-      // ✅ Success Alert
-      Swal.fire({
-        icon: 'success',
-        title: 'Updated!',
-        text: 'Your profile has been updated successfully.',
-        timer: 2000,
-        showConfirmButton: false,
-      }).then(() => {
-        navigate('myprofile');
+      const userData = res.data;
+      setFormData({
+        firstName: userData.firstName || '',
+        email: userData.email || '',
+        imgUrl: userData.imgUrl || '',
+        password: '',
       });
-    } catch (error) {
-      console.error(error);
-      Swal.fire('Error', 'Profile update failed!', 'error');
-    } finally {
-      setLoading(false);
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to fetch user info');
     }
   };
 
+  useEffect(() => {
+    fetchUser();
+  }, [user?.email]);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleUpdate = async () => {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to update your profile?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, update it!',
+      cancelButtonText: 'No, cancel',
+      reverseButtons: true,
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await axios.post('http://localhost:3000/users', formData);
+        await Swal.fire({
+          title: 'Success!',
+          text: res.data.message,
+          icon: 'success',
+          confirmButtonText: 'OK',
+        });
+
+        setUser({
+          ...user,
+          firstName: formData.firstName,
+          imgUrl: formData.imgUrl,
+        });
+        setIsModalOpen(false);
+        fetchUser();
+      } catch (err) {
+        console.error(err);
+        toast.error(err.response?.data?.message || 'Update failed');
+      }
+    } else {
+      toast('Update canceled');
+    }
+  };
+
+  if (!user) return <div className="text-center mt-10">Loading...</div>;
+
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
-      <div
-        className="w-full max-w-md sm:max-w-lg p-6 rounded-2xl
-        bg-gradient-to-br from-blue-50 via-white to-indigo-50
-        dark:from-slate-900 dark:via-slate-800 dark:to-slate-900
-        shadow-xl border border-slate-200 dark:border-slate-700"
-      >
-        <h2 className="text-2xl font-bold mb-6 text-center text-slate-800 dark:text-slate-100">
-          My Profile
-        </h2>
+    <div className="min-h-screen flex items-center justify-center mt-[-40px]">
+      <div className="w-full max-w-md p-6 border rounded-lg shadow-lg bg-white text-center">
+        <h2 className="text-2xl font-bold mb-6 text-blue-600">My Profile</h2>
 
-        {/* Profile Image */}
-        <div className="flex justify-center mb-6">
-          {photo ? (
-            <img
-              src={photo}
-              alt="profile"
-              className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-2 border-indigo-500"
-            />
-          ) : (
-            <div className="w-28 h-28 rounded-full bg-slate-300 flex items-center justify-center">
-              No Image
-            </div>
-          )}
-        </div>
+        {formData.imgUrl && (
+          <img
+            src={formData.imgUrl}
+            alt="Profile"
+            className="w-28 h-28 mx-auto rounded-full mb-4 border-4 border-blue-200 shadow-md object-cover"
+          />
+        )}
 
-        {/* Fields */}
-        <div className="space-y-4">
-          <div>
-            <label className="text-sm font-medium text-slate-600 dark:text-slate-300">
-              Name
-            </label>
-            {isEditing ? (
-              <input
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full mt-1 px-4 py-2 rounded-lg border focus:ring focus:ring-indigo-300"
-              />
-            ) : (
-              <p className="text-slate-800 dark:text-slate-100">
-                {user.displayName || user.firstName}
-              </p>
-            )}
-          </div>
+        <p className="font-semibold text-lg mb-2 text-black">
+          {formData.firstName}
+        </p>
+        <p className="text-gray-600 mb-6">{formData.email}</p>
 
-          <div>
-            <label className="text-sm font-medium text-slate-600 dark:text-slate-300">
-              Email
-            </label>
-            <p className="text-slate-800 dark:text-slate-100">{user.email}</p>
-          </div>
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 shadow-md transition"
+        >
+          Update Profile
+        </button>
 
-          {isEditing && (
-            <div>
-              <label className="text-sm font-medium text-slate-600 dark:text-slate-300">
-                Photo URL
-              </label>
-              <input
-                value={photo}
-                onChange={(e) => setPhoto(e.target.value)}
-                className="w-full mt-1 px-4 py-2 rounded-lg border focus:ring focus:ring-indigo-300"
-              />
-            </div>
-          )}
-        </div>
 
-        {/* Buttons */}
-        <div className="mt-6 flex flex-col sm:flex-row gap-3">
-          {isEditing ? (
-            <>
-              <button
-                onClick={handleUpdateConfirm}
-                disabled={loading}
-                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg"
-              >
-                {loading ? 'Updating...' : 'Save Changes'}
-              </button>
-
-              <button
-                onClick={() => setIsEditing(false)}
-                className="w-full bg-slate-300 hover:bg-slate-400 text-slate-800 py-2 rounded-lg"
-              >
-                Cancel
-              </button>
-            </>
-          ) : (
-            <button
-              onClick={() => setIsEditing(true)}
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg"
+        {isModalOpen && (
+          <div
+            className="fixed inset-0 z-50 flex text-black items-center justify-center bg-black/30 backdrop-blur-sm p-4"
+            onClick={() => setIsModalOpen(false)}
+          >
+            <div
+              className="bg-white p-6 rounded-xl shadow-xl w-full max-w-sm relative animate-slide-down"
+              onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
             >
-              Update Profile
-            </button>
-          )}
-        </div>
+              <h3 className="text-xl font-bold mb-4 text-blue-600">
+                Update Profile
+              </h3>
+
+              <div className="mb-4">
+                <label className="block mb-1 font-semibold">First Name</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  className="w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block mb-1 font-semibold">
+                  Profile Image URL
+                </label>
+                <input
+                  type="text"
+                  name="imgUrl"
+                  value={formData.imgUrl}
+                  onChange={handleChange}
+                  className="w-full border px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 transition"
+                />
+              </div>
+
+              <div className="flex justify-end gap-3 mt-4">
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-4 py-2 border rounded-lg hover:bg-gray-100 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleUpdate}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition shadow"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
