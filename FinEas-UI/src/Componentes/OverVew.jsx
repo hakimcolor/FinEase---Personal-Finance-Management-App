@@ -14,7 +14,7 @@
 //   useEffect(() => {
 //     if (user?.email) {
 //       axios
-//         .get(`https://fin-ease-backend-personal-finance-m.vercel.app/transactions/overview?email=${user.email}`)
+//         .get(`https://fin-eas-backend.vercel.app/transactions/overview?email=${user.email}`)
 //         .then((res) => {
 //           setData(res.data);
 //         })
@@ -64,7 +64,7 @@ const OverVew = () => {
     if (user?.email) {
       axios
         .get(
-          `https://fin-ease-backend-personal-finance-m.vercel.app/transactions/overview?email=${user.email}`
+          `https://fin-eas-backend.vercel.app/transactions/overview?email=${user.email}`
         )
         .then((res) => {
           setData(res.data);

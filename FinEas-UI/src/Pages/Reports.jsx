@@ -60,7 +60,7 @@ const Reports = () => {
   const fetchTransactions = async () => {
     try {
       const res = await axios.get(
-        `https://fin-ease-backend-personal-finance-m.vercel.app/transactions?email=${user.email}`
+        `https://fin-eas-backend.vercel.app/transactions?email=${user.email}`
       );
       setTransactions(res.data);
     } catch (err) {

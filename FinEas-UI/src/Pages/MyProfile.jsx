@@ -18,7 +18,7 @@ const MyProfile = () => {
     if (!user?.email) return;
     try {
       const res = await axios.get(
-        `https://fin-ease-backend-personal-finance-m.vercel.app/users/by-email?email=${user.email}`
+        `https://fin-eas-backend.vercel.app/users/by-email?email=${user.email}`
       );
       const userData = res.data;
       setFormData({
@@ -55,7 +55,7 @@ const MyProfile = () => {
     if (result.isConfirmed) {
       try {
         const res = await axios.post(
-          'https://fin-ease-backend-personal-finance-m.vercel.app/users',
+          'https://fin-eas-backend.vercel.app/users',
           formData
         );
         await Swal.fire({

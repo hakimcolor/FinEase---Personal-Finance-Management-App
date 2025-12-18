@@ -37,15 +37,12 @@ const SignUp = () => {
     setSuccess(false);
 
     try {
-      const res = await axios.post(
-        'https://fin-ease-backend-personal-finance-m.vercel.app/users',
-        {
-          firstName,
-          email,
-          password: passcode,
-          imgUrl,
-        }
-      );
+      const res = await axios.post('https://fin-eas-backend.vercel.app/users', {
+        firstName,
+        email,
+        password: passcode,
+        imgUrl,
+      });
 
       if (res.data.insertedId) {
         setSuccess(true);
@@ -73,7 +70,7 @@ const SignUp = () => {
 
         try {
           const res = await axios.post(
-            'https://fin-ease-backend-personal-finance-m.vercel.app/users',
+            'https://fin-eas-backend.vercel.app/users',
             userData
           );
           if (
