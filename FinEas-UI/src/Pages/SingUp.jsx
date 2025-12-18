@@ -1,4 +1,3 @@
-
 import React, { useContext, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
@@ -38,12 +37,15 @@ const SignUp = () => {
     setSuccess(false);
 
     try {
-      const res = await axios.post('http://localhost:3000/users', {
-        firstName,
-        email,
-        password: passcode,
-        imgUrl,
-      });
+      const res = await axios.post(
+        'https://fin-ease-backend-personal-finance-m.vercel.app/users',
+        {
+          firstName,
+          email,
+          password: passcode,
+          imgUrl,
+        }
+      );
 
       if (res.data.insertedId) {
         setSuccess(true);
@@ -70,7 +72,10 @@ const SignUp = () => {
         };
 
         try {
-          const res = await axios.post('http://localhost:3000/users', userData);
+          const res = await axios.post(
+            'https://fin-ease-backend-personal-finance-m.vercel.app/users',
+            userData
+          );
           if (
             res.data.insertedId ||
             res.data.message === 'User already exists'

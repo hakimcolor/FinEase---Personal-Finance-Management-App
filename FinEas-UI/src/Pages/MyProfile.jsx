@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -19,7 +18,7 @@ const MyProfile = () => {
     if (!user?.email) return;
     try {
       const res = await axios.get(
-        `http://localhost:3000/users/by-email?email=${user.email}`
+        `https://fin-ease-backend-personal-finance-m.vercel.app/users/by-email?email=${user.email}`
       );
       const userData = res.data;
       setFormData({
@@ -55,7 +54,10 @@ const MyProfile = () => {
 
     if (result.isConfirmed) {
       try {
-        const res = await axios.post('http://localhost:3000/users', formData);
+        const res = await axios.post(
+          'https://fin-ease-backend-personal-finance-m.vercel.app/users',
+          formData
+        );
         await Swal.fire({
           title: 'Success!',
           text: res.data.message,
@@ -105,7 +107,6 @@ const MyProfile = () => {
         >
           Update Profile
         </button>
-
 
         {isModalOpen && (
           <div

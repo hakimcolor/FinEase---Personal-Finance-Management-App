@@ -55,7 +55,7 @@ const AddTransaction = () => {
 
   return (
     <div
-      className="max-w-xl mx-auto p-6 rounded-2xl 
+      className="max-w-xl mx-auto p-6  mb-10 rounded-2xl 
     bg-gradient-to-br from-blue-50 via-white to-indigo-50
     dark:from-slate-900 dark:via-slate-800 dark:to-slate-900
     shadow-xl border border-slate-200 dark:border-slate-700"
